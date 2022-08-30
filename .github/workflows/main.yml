@@ -29,6 +29,6 @@ jobs:
       
       - name: deploy
         run: |
-          aws lambda update-function-code --function-name=ImageConvWebp --zip-file=s3://sbs3-zip/WEBP.zip
+          aws lambda update-function-code --function-name=ImageConvWebp --s3-key=sbs3-zip/WEBP.zip
       
 
