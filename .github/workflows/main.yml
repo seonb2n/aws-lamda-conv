@@ -24,7 +24,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_CLOUDFRONT_ID: E2WIUYQR3SAQ2K
+          AWS_CLOUDFRONT_ID: E3LDPR59HZJ2RZ
           LAMBDA_VERSION_FILE: version.json
           GET_CLOUDFRONT_CONFIG: config.json
           DISTRIBUTION_CLOUDFRONT_CONFIG: distrib-config.json
