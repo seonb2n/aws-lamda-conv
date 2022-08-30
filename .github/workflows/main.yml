@@ -14,7 +14,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
+          aws-region: ap-east-1
       - name: npm install
         env:
           CI: true
@@ -25,5 +25,6 @@ jobs:
       - name: deploy
         run: |
           zip -r WEBP.zip . -x "*.git"
-          aws lambda update-function-code --function-name=test --zip-file=fileb://WEBP.zip
+          aws lambda update-function-code --function-name=ImageConvWebp --zip-file=WEBP.zip
+
 
