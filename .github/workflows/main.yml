@@ -36,7 +36,7 @@ jobs:
           # aws cli - deploy code
           aws s3 cp --region us-east-1 webp.zip s3://sbs3-zip
           echo "s3"
-          aws lambda update-function-code --region us-east-1 --function-name webp --s3-bucket sbs3-zip --s3-key webp.zip --publish > ${LAMBDA_VERSION_FILE}
+          aws lambda update-function-code --region us-east-1 --function-name ImageConvWebp --s3-bucket sbs3-zip --s3-key webp.zip --publish > ${LAMBDA_VERSION_FILE}
           echo "lambda update"
           #get cloudfront config
           aws cloudfront get-distribution-config --id ${AWS_CLOUDFRONT_ID} > ${GET_CLOUDFRONT_CONFIG}
