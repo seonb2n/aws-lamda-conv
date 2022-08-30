@@ -25,5 +25,5 @@ jobs:
       - name: deploy
         run: |
           zip -r WEBP.zip . -x "*.git"
-          aws lambda update-function-code --function-name=test --zip-file=fileb://deploy.zip
+          aws lambda update-function-code --function-name=test --zip-file=fileb://WEBP.zip
 
