@@ -22,9 +22,13 @@ jobs:
           rm -rf node_modules
           npm install
           npm ci
-      - name: deploy
+      - name: build
         run: |
           zip -r WEBP.zip . -x "*.git"
           aws s3 cp --region us-east-1 WEBP.zip s3://sbs3-zip
-
+      
+      - name: deploy
+        run: |
+          aws lambda update-function-code --function-name=ImageConvWebp --zip-file=s3://sbs3-zip/WEBP.zip
+      
 
