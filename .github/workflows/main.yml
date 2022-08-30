@@ -1,20 +1,18 @@
-name: deploy to lamda
-on: [push]
+name: Deploy
+
+on:
+  push:
+    branches:
+      - "main"
 
 jobs:
-  deploy_lamda:
+  deploy_lambda:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '16'
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          node-version: "16"
       - name: npm install
         env:
           CI: true
@@ -22,12 +20,31 @@ jobs:
           rm -rf node_modules
           npm install
           npm ci
-      - name: build
-        run: |
-          zip -r WEBP.zip . -x "*.git"
-          aws s3 cp --region us-east-1 WEBP.zip s3://sbs3-zip
-      
       - name: deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_CLOUDFRONT_ID: E2WIUYQR3SAQ2K
+          LAMBDA_VERSION_FILE: version.json
+          GET_CLOUDFRONT_CONFIG: config.json
+          DISTRIBUTION_CLOUDFRONT_CONFIG: distrib-config.json
+          ETAG: eTag.txt
         run: |
-          aws lambda update-function-code --function-name=ImageConvWebp --s3-bucket=sbs3-zip --s3-key=WEBP.zip --publish
+          aws --version
+          # zip
+          zip -r webp.zip .
+          # aws cli - deploy code
+          aws s3 cp --region us-east-1 webp.zip s3://webp-zip
+          echo "s3"
+          aws lambda update-function-code --region us-east-1 --function-name webp --s3-bucket webp-zip --s3-key webp.zip --publish > ${LAMBDA_VERSION_FILE}
+          echo "lambda update"
+          #get cloudfront config
+          aws cloudfront get-distribution-config --id ${AWS_CLOUDFRONT_ID} > ${GET_CLOUDFRONT_CONFIG}
+          echo "cloudfront get config"
+          #setting json 
+          node a
+          echo "setting json"
+          #update cloudfront 
+          aws cloudfront update-distribution --id E2WIUYQR3SAQ2K --distribution-config file://${DISTRIBUTION_CLOUDFRONT_CONFIG} --if-match cat ${ETAG}
+          echo "finish"
 
