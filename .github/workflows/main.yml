@@ -45,6 +45,6 @@ jobs:
           node a
           echo "setting json"
           #update cloudfront 
-          aws cloudfront update-distribution --id E2WIUYQR3SAQ2K --distribution-config file://${DISTRIBUTION_CLOUDFRONT_CONFIG} --if-match cat ${ETAG}
+          aws cloudfront update-distribution --id E2WIUYQR3SAQ2K --distribution-config file://${DISTRIBUTION_CLOUDFRONT_CONFIG} --if-match $(cat ETAG)
           echo "finish"
 
