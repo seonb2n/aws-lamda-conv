@@ -30,6 +30,6 @@ jobs:
       - name: deploy
         run: |
           aws lambda update-function-code --function-name=ImageConvWebp --s3-bucket=sbs3-zip --s3-key=WEBP.zip
-          aws cloudfront update-distribution --distribution-config --id=E3LDPR59HZJ2RZ
+          aws cloudfront update-distribution --id E3LDPR59HZJ2RZ
 
 
